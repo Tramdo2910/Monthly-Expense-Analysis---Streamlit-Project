@@ -8,6 +8,8 @@ st.title("Income & Expense Analyzer")
 if 'df' not in st.session_state or st.session_state['df'] is None or st.session_state['df'].empty:
     st.info("No data available yet. Please upload or enter transactions on the Home page.")
 else:
+    #Load data
+    df = st.session_state['df'].copy()
     # 2. Check and fix the column name
     col_tag = 'Income/Expense'  # Change to EXACT name from your data
     date_col = 'Date'           # Also change if needed
