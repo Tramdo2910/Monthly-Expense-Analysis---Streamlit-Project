@@ -76,12 +76,8 @@ logout()  # Show log out button for logged in user
 st.title(f"Welcome, {st.session_state['user']}! 👋")
 st.write("Choose how to input your transactions below:")
 
-# Session state for data
-if 'df' not in st.session_state:
-    st.session_state['df'] = None
-
-# Sidebar menu
-menu = st.radio("Select Action", ["Upload CSV", "Manual Entry"])
+# menu
+menu = st.radio("Select Action", ["Upload CSV", "Manual Entry", "Current database"])
 
 if menu == "Upload CSV":
     st.subheader("Upload your transaction CSV")
@@ -113,13 +109,7 @@ elif menu == "Manual Entry":
             st.session_state['df'] = pd.concat([st.session_state['df'], new_row], ignore_index=True)
         st.success("Entry added! Now select 'View Analysis' to see insights.")
 
-elif menu == "View Analysis":
-    if st.session_state['df'] is None or st.session_state['df'].empty:
-        st.info("No data available yet. Please upload or enter transactions first.")
-    else:
-        # --- Your analysis code goes here! ---
-        df = st.session_state['df']
-        st.dataframe(df)
-        # Example: sum by type
-        st.write("**Total Income:**", df[df['Income/Expense'].str.lower() == 'income']['Amount'].sum())
-        st.write("**Total Expenses:**", df[df['Income/Expense'].str.lower() == 'expense']['Amount'].sum())
+elif menu == "Current database":
+    db_name = "expenses.db"
+    
+        
