@@ -22,6 +22,25 @@ else:
     # Only analyze if a month is chosen (not the blank option)
     if selected_month:
 
+        # Check your column names!
+        col_tag = 'Income/Expense'
+        date_col = 'Date'
+        
+        # Parse the main df dates and YearMonth if not done already
+        df[date_col] = pd.to_datetime(df[date_col], errors='coerce')
+        df.dropna(subset=[date_col], inplace=True)
+        df['YearMonth'] = df[date_col].dt.to_period('M').astype(str)
+        
+        
+        # Let user select month to analyze
+        months = df['YearMonth'].sort_values().unique()
+        selected_month = st.selectbox("Select Month", months)
+        
+        month_df = df[df['YearMonth'] == selected_month]
+        
+        # Filter by month
+        df_month = df[df['YearMonth'] == selected_month]
+        
         # Compute income and expense
         income = df_month[df_month[col_tag].str.lower() == 'income']['Amount'].sum()
         expense = df_month[df_month[col_tag].str.lower() == 'expense']['Amount'].sum()
@@ -32,9 +51,9 @@ else:
         st.markdown(f"### Expenses for {selected_month}: <span style='color:red'>${expense:,.2f}</span>", unsafe_allow_html=True)
         
         if remaining >= 0:
-            st.markdown(f"### Remaining Fund: <span style='color:green'>${remaining:,.2f}</span>", unsafe_allow_html=True)
+            st.markdown(f"## Remaining Fund: <span style='color:green'>${remaining:,.2f}</span>", unsafe_allow_html=True)
         else:
-            st.markdown(f"### Remaining Fund: <span style='color:red'>${remaining:,.2f}</span>", unsafe_allow_html=True)
+            st.markdown(f"## Remaining Fund: <span style='color:red'>${remaining:,.2f}</span>", unsafe_allow_html=True)
         st.subheader(f"Transactions for {selected_month}")
         st.dataframe(df_month, use_container_width=True)
         
@@ -79,4 +98,6 @@ else:
             st.info("No expense data for this month.")
         
         st.subheader("Total Spent This Month: $%.2f" % df_month[df_month[col_tag].str.lower() == 'expense']['Amount'].sum())
-
+        
+        
+        
