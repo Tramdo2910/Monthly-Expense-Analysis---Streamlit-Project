@@ -19,7 +19,7 @@ else:
     # Only analyze if a month is chosen (not the blank option)
     if selected_month:
         st.subheader(f"Overview for {selected_month}")
-        st.dataframe(month_df, use_container_width=True)
+        st.dataframe(df_month, use_container_width=True)
         # Add more overview analysis here
         # 2. Check and fix the column name
         col_tag = 'Income/Expense'  # Change to EXACT name from your data
