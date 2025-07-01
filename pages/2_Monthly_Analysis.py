@@ -40,9 +40,9 @@ st.markdown(f"### Income for {selected_month}: <span style='color:green'>${incom
 st.markdown(f"### Expenses for {selected_month}: <span style='color:red'>${expense:,.2f}</span>", unsafe_allow_html=True)
 
 if remaining >= 0:
-    st.markdown(f"## Remaining Fund: <span style='color:green'>${remaining:,.2f}</span>", unsafe_allow_html=True)
+    st.markdown(f"### Remaining Fund: <span style='color:green'>${remaining:,.2f}</span>", unsafe_allow_html=True)
 else:
-    st.markdown(f"## Remaining Fund: <span style='color:red'>${remaining:,.2f}</span>", unsafe_allow_html=True)
+    st.markdown(f"### Remaining Fund: <span style='color:red'>${remaining:,.2f}</span>", unsafe_allow_html=True)
 st.subheader(f"Transactions for {selected_month}")
 st.dataframe(df_month, use_container_width=True)
 
