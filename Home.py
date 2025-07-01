@@ -76,8 +76,54 @@ logout()  # Show log out button for logged in user
 st.title(f"Welcome, {st.session_state['user']}! 👋")
 st.write("Choose how to input your transactions below:")
 
-menu = st.radio("Select Action", ["Upload CSV", "Manual Entry"])
-if menu == "Upload CSV":
-    upload_csv_and_store()
+# Session state for data
+if 'df' not in st.session_state:
+    st.session_state['df'] = None
+
+# Sidebar menu
+menu = st.sidebar.radio("Select Action", ["Home", "Upload CSV", "Manual Entry", "View Analysis"])
+
+if menu == "Home":
+    st.write("👋 Welcome! Choose 'Upload CSV' or 'Manual Entry' to begin.")
+    st.info("No data loaded yet. Analysis will appear after you input data.")
+
+elif menu == "Upload CSV":
+    st.subheader("Upload your transaction CSV")
+    file = st.file_uploader("Choose a CSV file", type=["csv"])
+    if file:
+        df = pd.read_csv(file)
+        st.session_state['df'] = df  # Save to session_state
+        st.success("Data uploaded! Now select 'View Analysis' to see insights.")
+
 elif menu == "Manual Entry":
-    manual_entry_and_store()
+    st.subheader("Manual Transaction Entry")
+    # Example manual entry form
+    with st.form("manual_entry"):
+        date = st.date_input("Date")
+        category = st.text_input("Category")
+        amount = st.number_input("Amount")
+        typ = st.selectbox("Type", ["Income", "Expense"])
+        submitted = st.form_submit_button("Add")
+    if submitted:
+        new_row = pd.DataFrame([{
+            "Date": date,
+            "Category": category,
+            "Amount": amount,
+            "Income/Expense": typ
+        }])
+        if st.session_state['df'] is None:
+            st.session_state['df'] = new_row
+        else:
+            st.session_state['df'] = pd.concat([st.session_state['df'], new_row], ignore_index=True)
+        st.success("Entry added! Now select 'View Analysis' to see insights.")
+
+elif menu == "View Analysis":
+    if st.session_state['df'] is None or st.session_state['df'].empty:
+        st.info("No data available yet. Please upload or enter transactions first.")
+    else:
+        # --- Your analysis code goes here! ---
+        df = st.session_state['df']
+        st.dataframe(df)
+        # Example: sum by type
+        st.write("**Total Income:**", df[df['Income/Expense'].str.lower() == 'income']['Amount'].sum())
+        st.write("**Total Expenses:**", df[df['Income/Expense'].str.lower() == 'expense']['Amount'].sum())
