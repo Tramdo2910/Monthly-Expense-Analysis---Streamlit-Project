@@ -110,6 +110,10 @@ elif menu == "Manual Entry":
         st.success("Entry added! Now select 'View Analysis' to see insights.")
 
 elif menu == "Current database":
-    db_name = "expenses.db"
+    # 1. Load data once
+    conn = sqlite3.connect("expenses.db")
+    df = pd.read_sql("SELECT * FROM transactions", conn)
+    conn.close()
+    st.session_state['df'] = df
     
         
