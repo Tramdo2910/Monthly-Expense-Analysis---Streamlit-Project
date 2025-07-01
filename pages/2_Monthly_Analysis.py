@@ -4,7 +4,7 @@ import pandas as pd
 import sqlite3
 import altair as alt
 
-st.title("📅 Analyze Transactions by Month")
+st.title("Analyze Transactions by Month")
 
 # Load data
 conn = sqlite3.connect("expenses.db")
