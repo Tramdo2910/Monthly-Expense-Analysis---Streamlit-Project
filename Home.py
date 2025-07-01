@@ -81,13 +81,9 @@ if 'df' not in st.session_state:
     st.session_state['df'] = None
 
 # Sidebar menu
-menu = st.sidebar.radio("Select Action", ["Home", "Upload CSV", "Manual Entry", "View Analysis"])
+menu = st.radio("Select Action", ["Upload CSV", "Manual Entry"])
 
-if menu == "Home":
-    st.write("👋 Welcome! Choose 'Upload CSV' or 'Manual Entry' to begin.")
-    st.info("No data loaded yet. Analysis will appear after you input data.")
-
-elif menu == "Upload CSV":
+if menu == "Upload CSV":
     st.subheader("Upload your transaction CSV")
     file = st.file_uploader("Choose a CSV file", type=["csv"])
     if file:
