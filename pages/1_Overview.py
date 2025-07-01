@@ -3,7 +3,7 @@ import pandas as pd
 import sqlite3
 import altair as alt
 
-st.title("🏦 Income & Expense Analyzer")
+st.title("Income & Expense Analyzer")
 
 # 1. Load data once
 conn = sqlite3.connect("expenses.db")
@@ -29,13 +29,13 @@ for d in [income_df, expense_df]:
 
 # --- INCOME ANALYSIS ---
 if not income_df.empty:
-    st.subheader("💰 Total Income by Month")
+    st.subheader("Total Income by Month")
     income_month = income_df.groupby('YearMonth')["Amount"].sum().reset_index()
     st.bar_chart(income_month, x='YearMonth', y='Amount')
 
 # --- EXPENSE ANALYSIS ---
 if not expense_df.empty:
-    st.subheader("💸 Total Spending by Month")
+    st.subheader("Total Spending by Month")
     expense_month = expense_df.groupby('YearMonth')["Amount"].sum().reset_index()
     st.bar_chart(expense_month, x='YearMonth', y='Amount')
 
@@ -61,7 +61,7 @@ else:
     st.warning("No expense data found. Please check your table and filter.")
 
 # Show tables
-st.subheader("💰 Income Transactions")
+st.subheader("Income Transactions")
 st.dataframe(income_df, use_container_width=True)
 
 st.subheader("💸 Expense Transactions")
