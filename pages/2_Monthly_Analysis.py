@@ -31,11 +31,6 @@ else:
         df.dropna(subset=[date_col], inplace=True)
         df['YearMonth'] = df[date_col].dt.to_period('M').astype(str)
         
-        
-        # Let user select month to analyze
-        months = df['YearMonth'].sort_values().unique()
-        selected_month = st.selectbox("Select Month", months)
-        
         month_df = df[df['YearMonth'] == selected_month]
         
         # Filter by month
