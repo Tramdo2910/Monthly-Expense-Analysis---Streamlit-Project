@@ -15,6 +15,8 @@ else:
 
     months = df['YearMonth'].sort_values().unique()
     selected_month = st.selectbox("Select Month to See Overview", [""] + list(months), index=0)
+    # Filter by month
+    df_month = df[df['YearMonth'] == selected_month]
 
     # Only analyze if a month is chosen (not the blank option)
     if selected_month:
@@ -26,8 +28,8 @@ else:
         date_col = 'Date'           # Also change if needed
         
         # 3. Filter income and expense tables
-        income_df = df[df[col_tag].str.lower() == 'income'].copy()
-        expense_df = df[df[col_tag].str.lower() == 'expense'].copy()
+        income_df = df_month[df_month[col_tag].str.lower() == 'income'].copy()
+        expense_df = df_month[df_month[col_tag].str.lower() == 'expense'].copy()
         
         # 4. Standardize date and add YearMonth
         for d in [income_df, expense_df]:
@@ -74,7 +76,7 @@ else:
         st.subheader("Income Transactions")
         st.dataframe(income_df, use_container_width=True)
         
-        st.subheader("💸 Expense Transactions")
+        st.subheader("Expense Transactions")
         st.dataframe(expense_df, use_container_width=True)
 
     else:
