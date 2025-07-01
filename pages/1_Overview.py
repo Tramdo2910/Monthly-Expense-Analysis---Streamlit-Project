@@ -10,12 +10,13 @@ conn = sqlite3.connect("expenses.db")
 df = pd.read_sql("SELECT * FROM transactions", conn)
 conn.close()
 
+months = df['YearMonth'].sort_values().unique()
 selected_month = st.selectbox("Select Month to See Overview", [""] + list(months), index=0)
 
 # Only analyze if a month is chosen (not the blank option)
 if selected_month:
     month_df = df[df['YearMonth'] == selected_month]
-    months = df['YearMonth'].sort_values().unique()
+
     st.subheader(f"Overview for {selected_month}")
     st.dataframe(month_df, use_container_width=True)
     # Add more overview analysis here
