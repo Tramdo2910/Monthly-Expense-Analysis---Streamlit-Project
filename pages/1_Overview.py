@@ -5,10 +5,15 @@ import altair as alt
 
 st.title("Income & Expense Analyzer")
 
-# 1. Load data once
-conn = sqlite3.connect("expenses.db")
-df = pd.read_sql("SELECT * FROM transactions", conn)
-conn.close()
+
+# Check if data is available
+if 'df' not in st.session_state or st.session_state['df'] is None or st.session_state['df'].empty:
+    st.info("No data available yet. Please upload or enter transactions on the Home page.")
+else:
+    # 1. Load data once
+    conn = sqlite3.connect("expenses.db")
+    df = pd.read_sql("SELECT * FROM transactions", conn)
+    conn.close()
 
 
 # 2. Check and fix the column name
