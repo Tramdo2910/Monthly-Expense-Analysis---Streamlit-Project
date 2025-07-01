@@ -3,9 +3,6 @@ import pandas as pd
 import sqlite3
 from datetime import datetime
 
-import os
-os.system('pip install streamlit pandas matplotlib altair')
-
 # --- User management (simple demo) ---
 USERS = {"user1": "pass123", "user2": "letmein"}  # replace with secure method for production
 
