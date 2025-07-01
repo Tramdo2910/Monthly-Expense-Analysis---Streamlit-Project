@@ -6,11 +6,6 @@ import altair as alt
 
 st.title("Analyze Transactions by Month")
 
-# Load data
-conn = sqlite3.connect("expenses.db")
-df = pd.read_sql("SELECT * FROM transactions", conn)
-conn.close()
-
 # Check your column names!
 col_tag = 'Income/Expense'
 date_col = 'Date'
@@ -24,8 +19,6 @@ df['YearMonth'] = df[date_col].dt.to_period('M').astype(str)
 # Let user select month to analyze
 months = df['YearMonth'].sort_values().unique()
 selected_month = st.selectbox("Select Month", months)
-
-month_df = df[df['YearMonth'] == selected_month]
 
 # Filter by month
 df_month = df[df['YearMonth'] == selected_month]
